@@ -1,0 +1,15 @@
+{
+  "name": "Mayushii0 bot",
+  "description": "The server side for Mayushii0.",
+  "image": "heroku/python",
+  "repository": "https://github.com/izaankml/Mayushii0",
+  "keywords": ["python", "telegram" ],
+  "addons": [ "" ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "mayubot.py test"
+      }
+    }
+  }
+}
