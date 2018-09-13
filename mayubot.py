@@ -14,7 +14,6 @@ the Dispatcher and registered at their respective places.
 Then, the bot is started and runs until we press Ctrl-C on the command line.
 
 Usage:
-Basic Alarm Bot example, sends a message after a set time.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
@@ -39,7 +38,7 @@ def morning(bot, job):
 
 def set_weeb_message(bot, update, args, job_queue, chat_data):
     """Add a job to the queue."""
-    chat_id = "-1001092305384"
+    chat_id = update.message.chat_id
     sticker = "CAADBQADShAAAsZRxhVwz5UcI85BmQI"
     eightAm = time(hour = 8)
     # Add job to queue
@@ -55,7 +54,7 @@ def error(bot, update, error):
 
 def main():
     """Run bot."""
-    updater = Updater("652731656:AAHu8RhL9yo1lVuUnXN6kL2vEqFEz-NW5M4")
+    updater = Updater("<TOKEN>")
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
