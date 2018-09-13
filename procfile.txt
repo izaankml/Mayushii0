@@ -1,1 +1,1 @@
-web: python mayubot.py
+worker: python mayubot.py
