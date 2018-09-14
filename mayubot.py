@@ -40,7 +40,7 @@ def set_weeb_message(bot, update, args, job_queue, chat_data):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
     sticker = "CAADBQADShAAAsZRxhVwz5UcI85BmQI"
-    eightAm = time(hour = 8)
+    eightAm = time(hour = 12)
     # Add job to queue
     job = job_queue.run_daily(morning, eightAm, context=chat_id)
     chat_data['job'] = job
@@ -54,7 +54,7 @@ def error(bot, update, error):
 
 def main():
     """Run bot."""
-    updater = Updater("<TOKEN>")
+    updater = Updater("652731656:AAHu8RhL9yo1lVuUnXN6kL2vEqFEz-NW5M4")
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
