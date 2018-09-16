@@ -35,8 +35,7 @@ def morning(bot, job):
 def set_weeb_message(bot, update, args, job_queue, chat_data):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
-    sticker = "CAADBQADShAAAsZRxhVwz5UcI85BmQI"
-    eightAm = time(hour = 12)
+    eightAm = datetime.time(hour = 12)
     # Add job to queue
     job = job_queue.run_daily(morning, eightAm, context=chat_id)
     chat_data['job'] = job
