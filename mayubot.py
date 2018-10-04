@@ -43,10 +43,17 @@ def set_weeb_message(bot, update, args, job_queue, chat_data):
     minutes = 60 * hours
     seconds = 60 * minutes
     twice = seconds/2
-    job = job_queue.run_repeating(morning, twice, eightAm, context = chat_id)
+    job = job_queue.run_repeating(morning, interval = seconds, first = eightAm, context = chat_id)
     chat_data['job'] = job
 
+
+    job2 = job_queue.run_repeating(working, interval = 3600, first = 0, context = chat_id)
+    chat_data['job2'] = job2
+
     update.message.reply_text('Alright you stupid noob')
+
+def working(bot, job):
+    bot.send_message(job.context, text = "Still alive")
 
 def time(bot, update):
     rn = datetime.datetime.now().time()
@@ -64,6 +71,10 @@ def damn(bot, update):
 def hellothere(bot, update):
     chat_id = update.message.chat_id
     bot.send_message(chat_id, text = "General Kenobi")
+
+def tragedy(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_message(chat_id, text = "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.")
 
 def santa(bot, update):
     chat_id = update.message.chat_id
@@ -89,6 +100,7 @@ def main():
     dp.add_handler(CommandHandler("damn", damn))
     dp.add_handler(CommandHandler("santa", santa))
     dp.add_handler(CommandHandler("hellothere", hellothere))
+    dp.add_handler(CommandHandler("tragedy", tragedy))
     dp.add_handler(CommandHandler("start", set_weeb_message,
                                   pass_args=True,
                                   pass_job_queue=True,
