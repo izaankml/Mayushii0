@@ -60,10 +60,6 @@ def time(bot, update):
     chat_id = update.message.chat_id
     bot.send_message(chat_id, text = str(rn))
 
-def insult(bot, update):
-    chat_id = update.message.chat_id
-    bot.send_message(chat_id, text = "Shut up. Your daddy aint love you, and your mom's a hoe")
-
 def damn(bot, update):
     chat_id = update.message.chat_id
     bot.send_message(chat_id, text = "Truth hurts doesnt it")
@@ -75,11 +71,6 @@ def hellothere(bot, update):
 def tragedy(bot, update):
     chat_id = update.message.chat_id
     bot.send_message(chat_id, text = "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.")
-
-def santa(bot, update):
-    chat_id = update.message.chat_id
-    bot.send_message(chat_id, text = "Dear Santa, you are a bitch nigga. No, scratch that. Dear Santa, you are a bitch *ass* nigga. I heard they hired extra security to protect you. That's a bitch move, Santa. I'm coming for that ass again. Until you pay what you owe. Sincerely yours, The Santa Stalker.")
-
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
@@ -96,9 +87,7 @@ def main():
     # on different commands - answer in
     #dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("time", time))
-    dp.add_handler(CommandHandler("fuckoff", insult))
     dp.add_handler(CommandHandler("damn", damn))
-    dp.add_handler(CommandHandler("santa", santa))
     dp.add_handler(CommandHandler("hellothere", hellothere))
     dp.add_handler(CommandHandler("tragedy", tragedy))
     dp.add_handler(CommandHandler("start", set_weeb_message,
