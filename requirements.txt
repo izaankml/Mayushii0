@@ -1,2 +1,2 @@
 python_telegram_bot==13.0
-requirements=2.22.0
+requirements==2.22.0
