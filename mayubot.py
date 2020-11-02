@@ -14,7 +14,9 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, InlineQueryHandler
+import requests
+import re
 import datetime
 import logging
 
@@ -24,15 +26,26 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+def get_url():
+    contents = requests.get('https://random.dog/woof.json').json()    
+    url = contents['url']
+    return url
 
-def morning(bot, job):
+def bop(update, context):
+    url = get_url()
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id=chat_id, photo=url)
+
+
+def morning(update, context):
     """Send the alarm message."""
     sticker = "CAADBQADShAAAsZRxhVwz5UcI85BmQI"
-    bot.send_sticker(job.context, sticker)
-    bot.send_message(job.context, text='Too-too-roo!')
+    chat_id = update.message.chat_id
+    context.bot.send_sticker(chat_id, sticker)
+    context.bot.send_message(chat_id, text='Too-too-roo!')
 
 
-def set_weeb_message(bot, update, args, job_queue, chat_data):
+def set_weeb_message(update, context, args, job_queue, chat_data):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
     eightAm = datetime.time(hour = 12)
@@ -50,31 +63,29 @@ def set_weeb_message(bot, update, args, job_queue, chat_data):
     job2 = job_queue.run_repeating(working, interval = 3600, first = 0, context = chat_id)
     chat_data['job2'] = job2
 
-    update.message.reply_text('Alright you stupid noob')
+def working(update, context):
+    context.bot.send_message(job.context, text = "Still alive")
 
-def working(bot, job):
-    bot.send_message(job.context, text = "Still alive")
-
-def time(bot, update):
+def time(update, context):
     rn = datetime.datetime.now().time()
     chat_id = update.message.chat_id
-    bot.send_message(chat_id, text = str(rn))
+    context.bot.send_message(chat_id, text = str(rn))
 
-def damn(bot, update):
+def damn(update, context):
     chat_id = update.message.chat_id
-    bot.send_message(chat_id, text = "Truth hurts doesnt it")
+    context.bot.send_message(chat_id, text = "Truth hurts doesnt it")
 
-def hellothere(bot, update):
+def hellothere(update, context):
     chat_id = update.message.chat_id
-    bot.send_message(chat_id, text = "General Kenobi")
+    context.bot.send_message(chat_id, text = "General Kenobi")
 
-def tragedy(bot, update):
+def tragedy(update, context):
     chat_id = update.message.chat_id
-    bot.send_message(chat_id, text = "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.")
+    context.bot.send_message(chat_id, text = "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.")
 
-def error(bot, update, error):
+def error(update, context):
     """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, error)
+    logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
 def main():
@@ -88,12 +99,15 @@ def main():
     #dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("time", time))
     dp.add_handler(CommandHandler("damn", damn))
+    dp.add_handler(CommandHandler("morning", morning))
     dp.add_handler(CommandHandler("hellothere", hellothere))
     dp.add_handler(CommandHandler("tragedy", tragedy))
-    dp.add_handler(CommandHandler("start", set_weeb_message,
-                                  pass_args=True,
-                                  pass_job_queue=True,
-                                  pass_chat_data=True))
+    # dp.add_handler(CommandHandler("start", set_weeb_message,
+    #                               pass_args=True,
+    #                               pass_job_queue=True,
+    #                               pass_chat_data=True))
+    dp.add_handler(CommandHandler('bop',bop))
+
 
     # log all errors
     dp.add_error_handler(error)
