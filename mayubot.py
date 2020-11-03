@@ -26,13 +26,15 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-def get_url():
+def bop(update, context):
     contents = requests.get('https://random.dog/woof.json').json()    
     url = contents['url']
-    return url
+    chat_id = update.message.chat_id
+    context.bot.send_photo(chat_id=chat_id, photo=url)
 
-def bop(update, context):
-    url = get_url()
+
+def cat(update, context):
+    url = 'cataas.com/cat'
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id=chat_id, photo=url)
 
@@ -48,7 +50,7 @@ def morning(update, context):
 def set_weeb_message(update, context, args, job_queue, chat_data):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
-    eightAm = datetime.time(hour = 12)
+    eightAm = datetime.time(hour = 14)
     # Add job to queue
     #job = job_queue.run_daily(morning, eightAm, context=chat_id)
     day = 1
@@ -63,25 +65,27 @@ def set_weeb_message(update, context, args, job_queue, chat_data):
     job2 = job_queue.run_repeating(working, interval = 3600, first = 0, context = chat_id)
     chat_data['job2'] = job2
 
-def working(update, context):
-    context.bot.send_message(job.context, text = "Still alive")
 
 def time(update, context):
     rn = datetime.datetime.now().time()
     chat_id = update.message.chat_id
     context.bot.send_message(chat_id, text = str(rn))
 
+
 def damn(update, context):
     chat_id = update.message.chat_id
     context.bot.send_message(chat_id, text = "Truth hurts doesnt it")
+
 
 def hellothere(update, context):
     chat_id = update.message.chat_id
     context.bot.send_message(chat_id, text = "General Kenobi")
 
+
 def tragedy(update, context):
     chat_id = update.message.chat_id
     context.bot.send_message(chat_id, text = "Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It’s not a story the Jedi would tell you. It’s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.")
+
 
 def error(update, context):
     """Log Errors caused by Updates."""
@@ -96,17 +100,14 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in
-    #dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("time", time))
     dp.add_handler(CommandHandler("damn", damn))
     dp.add_handler(CommandHandler("morning", morning))
     dp.add_handler(CommandHandler("hellothere", hellothere))
     dp.add_handler(CommandHandler("tragedy", tragedy))
-    # dp.add_handler(CommandHandler("start", set_weeb_message,
-    #                               pass_args=True,
-    #                               pass_job_queue=True,
-    #                               pass_chat_data=True))
     dp.add_handler(CommandHandler('bop',bop))
+    dp.add_handler(CommandHandler('cat',cat))
+
 
 
     # log all errors
