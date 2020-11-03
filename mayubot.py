@@ -26,6 +26,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+
 def bop(update, context):
     contents = requests.get('https://random.dog/woof.json').json()    
     url = contents['url']
@@ -34,7 +35,8 @@ def bop(update, context):
 
 
 def cat(update, context):
-    url = 'cataas.com/cat'
+    contents = requests.get('https://theoldreader.com/kittens/600/400')
+    url = contents.url
     chat_id = update.message.chat_id
     context.bot.send_photo(chat_id=chat_id, photo=url)
 
