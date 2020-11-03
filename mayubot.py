@@ -83,6 +83,17 @@ def hellothere(update, context):
     chat_id = update.message.chat_id
     context.bot.send_message(chat_id, text = "General Kenobi")
 
+def help(update, context):
+    chat_id = update.message.chat_id
+    helpString = """Available Commands: \n
+/hellothere
+/cat
+/bop 
+/damn
+/morning
+/tragedy"""
+    context.bot.send_message(chat_id, text = helpString)
+
 
 def tragedy(update, context):
     chat_id = update.message.chat_id
@@ -109,6 +120,8 @@ def main():
     dp.add_handler(CommandHandler("tragedy", tragedy))
     dp.add_handler(CommandHandler('bop',bop))
     dp.add_handler(CommandHandler('cat',cat))
+    dp.add_handler(CommandHandler('help',help))
+
 
 
 
